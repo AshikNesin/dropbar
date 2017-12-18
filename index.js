@@ -8,6 +8,7 @@ const iconPath = path.join(__dirname, 'static/IconTray.png');
 
 // Prevent window being garbage collected
 let mainWindow;
+let tray;
 
 const onClosed = () => {
 	// Dereference the window
@@ -22,8 +23,8 @@ const onBlur = () => {
 function createMainWindow() {
 	const win = new BrowserWindow({
 		title: 'DropBar',
-		width: 400,
-		height: 300,
+		width: 200,
+		height: 150,
 		frame: false,
 		resizable: false,
 		show: false,
@@ -39,9 +40,10 @@ function createMainWindow() {
 }
 
 app.on('ready', () => {
+	console.log('App is ready');
 	mainWindow = createMainWindow();
 	// Prevent tray being garbage collected
-	const tray = new DropTray(iconPath, mainWindow); // eslint-disable-line no-unused-vars
+	tray = new DropTray(iconPath, mainWindow); // eslint-disable-line no-unused-vars
 
 	// Hide Dock Icon
 	app.dock.hide();
