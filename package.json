@@ -1,17 +1,22 @@
 {
-  "name": "dropbar",
-  "version": "1.0.0",
-  "description": "Quickly upload your files from menubar",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "Ashik Nesin <mail@ashiknesin.com>",
-  "license": "ISC",
-  "dependencies": {
-    "electron": "^1.7.9",
-    "s3-bucket": "^0.1.1",
-    "xo": "^0.18.2"
-  }
+	"name": "dropbar",
+	"version": "1.0.0",
+	"description": "Quickly upload your files from menubar",
+	"main": "index.js",
+	"scripts": {
+		"pack": "electron-builder --dir",
+		"dist": "electron-builder",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "Ashik Nesin <mail@ashiknesin.com>",
+	"license": "ISC",
+	"dependencies": {
+		"s3-bucket": "^0.1.1"
+	},
+	"devDependencies": {
+		"electron-builder": "^19.49.0",
+		"electron": "^1.7.9",
+		"xo": "^0.18.2"
+	}
 }

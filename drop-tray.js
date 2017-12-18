@@ -1,12 +1,15 @@
 const electron = require('electron');
-const { uploadFile } = require('s3-bucket');
+const {uploadFile} = require('s3-bucket');
 
-const { app, Tray, Menu, Notification } = electron;
+const {app, Tray, Menu, shell, clipboard} = electron;
+
+const {showNotification} = require('./utils');
 
 class DropTray extends Tray {
 	constructor(iconPath, mainWindow) {
 		super(iconPath);
 		this.mainWindow = mainWindow;
+		this.setToolTip('DropBar → Drag & Drop file here');
 		this.on('click', this.onClick.bind(this));
 		this.on('right-click', this.onRightClick.bind(this));
 		this.on('drop-files', this.onDropFiles.bind(this));
@@ -14,10 +17,10 @@ class DropTray extends Tray {
 
 	onClick(event, bounds) {
 		// Click event bounds
-		const { x, y } = bounds;
+		const {x, y} = bounds;
 
 		// Window height and width
-		const { height, width } = this.mainWindow.getBounds();
+		const {height, width} = this.mainWindow.getBounds();
 
 		const yPostion = process.platform === 'darwin' ? y : y - height;
 
@@ -48,15 +51,26 @@ class DropTray extends Tray {
 	}
 
 	onDropFiles(event, files) {
-		// Console.log(files[0]);
 		const fileName = files[0].split('/').slice(-1)[0];
-		// Console.log(fileName);
+		showNotification({
+			title: 'DropBar',
+			body: `Uploading ${fileName}`
+		});
+
 		uploadFile({
 			filePath: files[0],
 			Key: fileName
 		})
 			.then(res => {
 				const uploadedURL = res.url;
+				showNotification({
+					title: 'Success',
+					body: `${fileName} successfully uploaded`,
+					onClick: () => {
+						shell.openExternal(uploadedURL);
+					}
+				});
+				clipboard.writeText(uploadedURL);
 				console.log(uploadedURL);
 			})
 			.catch(err => console.log(err));

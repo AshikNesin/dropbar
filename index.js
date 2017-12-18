@@ -3,7 +3,6 @@ const path = require('path');
 const DropTray = require('./drop-tray');
 
 const {app, BrowserWindow} = electron;
-
 const iconPath = path.join(__dirname, 'static/IconTray.png');
 
 // Prevent window being garbage collected
